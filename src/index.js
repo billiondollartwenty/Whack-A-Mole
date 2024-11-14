@@ -5,7 +5,7 @@ const startButton = document.querySelector('#start');
 //.score querySelector()
 const score = document.querySelector('#score');
 //.timer querySelector()
-const timerDisplay = document.querySelector('.timer');
+const timerDisplay = document.querySelector('#timer');
 
 //const score; // Use querySelector() to get the score element
 //const timerDisplay; // use querySelector() to get the timer element.
@@ -128,6 +128,7 @@ function chooseHole(holes) {
 *
 */
 function gameOver() {
+  showUp();
   if (time > 0) {
       // Call showUp and store the returned timeout ID (should be a number)
       const timeoutId = showUp();
@@ -151,10 +152,11 @@ function gameOver() {
 *
 */
 function showUp() {
+  console.log("SHOW UP")
   const delay = setDelay(difficulty);
   const hole = chooseHole(holes);
-  const timeoutId = showAndHide(hole, delay);
-  return timeoutId; // Ensure this returns the `setTimeout` ID
+  //const timeoutId = showAndHide(hole, delay);
+  return showAndHide(hole, delay); // Ensure this returns the `setTimeout` ID
 }
 
 
@@ -171,12 +173,14 @@ function showAndHide(hole, delay) {
   toggleVisibility(hole);
 
   // Step 2: Use setTimeout with the provided delay to hide the hole
-  const timeoutID = setTimeout(function () {
+  const timeoutID = setTimeout( () => {
       // Call toggleVisibility again to remove the 'show' class
       toggleVisibility(hole);
-      
+      if(stopGame){
+       hole.classList.remove("show") 
       gameOver(); // Call gameOver or other functions as necessary
-  }, delay); // Use the delay parameter instead of 0
+      }
+    }, delay); // Use the delay parameter instead of 0
 
   return timeoutID;
 }
@@ -208,13 +212,13 @@ function toggleVisibility(hole){
 function updateScore() {
   // TODO: Write your code here
  // Step 1: Increment the points global variable
- points = 1;
+ points += 1;
  //console.log("score", score)
  // Step 2: Update the scoreboard text in the HTML
- const score = document.getElementById('score'); // Get the score element
- if (score) {
-   score.textContent = points.toString(); // Update the score display
- }
+// const score = document.getElementById('score'); // Get the score element
+ //if (score) {
+   score.textContent = points; // Update the score display
+ //}
  //document.getElementById('score').innerText = points.toString();
  // Return the updated points value
  return points;
@@ -244,16 +248,18 @@ function clearScore() {
 *
 */
 function updateTimer() {
+  console.log("UPDATE TIMER")
+  console.log("TIME", time)
   // Check if there’s still time left
   if (time > 0) {
       // Decrement the time
-      time--;
+      time -= 1;
 
       // Update the control board display
-      const timerDisplay = document.querySelector('#timer'); // Assume the timer display has the ID 'timer'
+      //const timerDisplay = document.querySelector('#timer'); // Assume the timer display has the ID 'timer'
       timerDisplay.textContent = time; // Update the display with the current time
   }
-
+  console.log("TIME2", time);
   // Return the updated time
   return time;
 }
@@ -265,8 +271,10 @@ function updateTimer() {
 *
 */
 function startTimer() {
+  console.log("START TIMER")
   // TODO: Write your code here
-  // timer = setInterval(updateTimer, 1000);
+   timer = setInterval(updateTimer, 1000);
+   console.log("TIMER",timer)
   return timer;
 }
 
@@ -293,6 +301,7 @@ function whack() {
 * for an example on how to set event listeners using a for loop.
 */
 function setEventListeners() {
+  console.log("SET EVENTLISTENERS")
   moles.forEach(mole => {
       mole.addEventListener('click', whack);
   });
@@ -329,14 +338,17 @@ function stopGame(){
 *
 */
 function startGame(){
-  //setDuration(10);
-  //showUp();
+  console.log("START GAME")
+  setDuration(10);
+  showUp();
   setEventListeners();
   startTimer();
+  //showUp(); 
+  clearScore();
   return "game started";
 }
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener('click', startGame);
 
 
 // Please do not modify the code below.
