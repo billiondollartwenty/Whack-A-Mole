@@ -152,7 +152,6 @@ function gameOver() {
 *
 */
 function showUp() {
-  console.log("SHOW UP")
   const delay = setDelay(difficulty);
   const hole = chooseHole(holes);
   //const timeoutId = showAndHide(hole, delay);
@@ -248,8 +247,6 @@ function clearScore() {
 *
 */
 function updateTimer() {
-  console.log("UPDATE TIMER")
-  console.log("TIME", time)
   // Check if there’s still time left
   if (time > 0) {
       // Decrement the time
@@ -259,7 +256,6 @@ function updateTimer() {
       //const timerDisplay = document.querySelector('#timer'); // Assume the timer display has the ID 'timer'
       timerDisplay.textContent = time; // Update the display with the current time
   }
-  console.log("TIME2", time);
   // Return the updated time
   return time;
 }
@@ -271,10 +267,8 @@ function updateTimer() {
 *
 */
 function startTimer() {
-  console.log("START TIMER")
   // TODO: Write your code here
    timer = setInterval(updateTimer, 1000);
-   console.log("TIMER",timer)
   return timer;
 }
 
@@ -301,7 +295,7 @@ function whack() {
 * for an example on how to set event listeners using a for loop.
 */
 function setEventListeners() {
-  console.log("SET EVENTLISTENERS")
+  
   moles.forEach(mole => {
       mole.addEventListener('click', whack);
   });
@@ -338,8 +332,8 @@ function stopGame(){
 *
 */
 function startGame(){
-  console.log("START GAME")
-  setDuration(10);
+  
+  setDuration(30);
   showUp();
   setEventListeners();
   startTimer();
